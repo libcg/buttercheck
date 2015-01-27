@@ -1,1 +1,8 @@
-{"shell-version": ["3.14.3"], "uuid": "ButterCheck@arch", "name": "ButterCheck", "description": "Check if the shell runs at 60fps"}
+{
+    "shell-version": ["3.8", "3.10", "3.12", "3.14"],
+    "uuid": "ButterCheck@arch",
+    "name": "ButterCheck",
+    "description": "Check if the shell runs at 60fps",
+    "original-author": "geecko.dev@free.fr",
+    "url": "https://github.com/libcg/buttercheck"
+}
