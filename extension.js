@@ -1,38 +1,58 @@
-
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const Tweener = imports.ui.tweener;
+const DELAY = 2; // seconds to travel the screen width
+const COUNT = 8; // number of objects
 
-let text, button;
+let button, active;
 
-function _resetObj() {
+function _resetObj(obj) {
     let monitor = Main.layoutManager.primaryMonitor;
 
-    text.set_position(monitor.x,
-                      monitor.y);
+    obj.set_position(monitor.x, monitor.y);
 
-    Tweener.addTween(text,
+    Tweener.addTween(obj,
                      { x: monitor.width,
-                       time: 2,
+                       time: DELAY,
                        transition: 'linear',
-                       onComplete: _resetObj });
+                       onComplete: _destroyObj,
+                       onCompleteParams: [obj] });
 }
 
-function _showObj() {
-    if (!text) {
-        text = new St.Label({ style_class: 'helloworld-label', text: ">>" });
-        Main.uiGroup.add_actor(text);
+function _destroyObj(obj) {
+    if (obj) {
+        Main.uiGroup.remove_actor(obj);
+        Tweener.removeTweens(obj);
     }
+}
 
-    text.opacity = 255;
+function _createObj() {
+    let obj = new St.Label({ style_class: 'obj-label', text: ">>>>" });
+    _resetObj(obj);
 
-    let monitor = Main.layoutManager.primaryMonitor;
+    Main.uiGroup.add_actor(obj);
+}
 
-    Tweener.addTween(text,
-                     { x: monitor.width,
-                       time: 2,
-                       transition: 'linear',
-                       onComplete: _resetObj });
+function _animate() {
+    if (active) {
+        Tweener.addCaller(this,
+                          { onUpdate: _createObj,
+                            time: DELAY,
+                            count: COUNT,
+                            transition: 'linear',
+                            onComplete: _animate });
+    }
+    else {
+        Tweener.removeTweens(this);
+    }
+}
+
+function _onClick() {
+    active = !active;
+
+    if (active) {
+        _animate();
+    }
 }
 
 function init() {
@@ -46,7 +66,7 @@ function init() {
                              style_class: 'system-status-icon' });
 
     button.set_child(icon);
-    button.connect('button-press-event', _showObj);
+    button.connect('button-press-event', _onClick);
 }
 
 function enable() {
