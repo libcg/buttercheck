@@ -1,5 +1,5 @@
 {
-    "shell-version": ["3.8", "3.10", "3.12", "3.14"],
+    "shell-version": ["3.8", "3.10", "3.12", "3.14", "3.16", "3.18", "3.20"],
     "uuid": "ButterCheck@arch",
     "name": "ButterCheck",
     "description": "Check if the shell runs at 60fps",
