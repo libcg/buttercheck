@@ -1,6 +1,6 @@
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Tweener = imports.ui.tweener;
+const Tweener = imports.tweener.tweener;
 const DELAY = 2; // seconds to travel the screen width
 const COUNT = 8; // number of objects
 
